@@ -5,6 +5,7 @@ from src.schema.CollectionsSchema import UserCollectionSchema
 from src.util.DatabaseConnection import mongo_db_client_connection
 import json
 from datetime import datetime
+from bson import ObjectId
 from src.util.serialise import serialise
 
 router = APIRouter()
@@ -16,7 +17,7 @@ class Item(BaseModel):
 
 client = mongo_db_client_connection()
 db = client.userSchemas
-# collection_name = db["user-schemas"]
+collection_name = db["user-schemas"]
 
 
 @router.get("/")
@@ -40,15 +41,15 @@ async def create_collection(request: Request, userId: int):
 
 
 @router.get("/get-all-collection/{userId}")
-async def get_all(request: Request, userId: int):
+async def get_all(request: Request, userId: int, colId: str | None = None):
     try:
         collection_name = db[str(userId)]
-        data = serialise(list(collection_name.find()))
-        # for document in data:
-        #     # Convert ObjectId to string
-        #     document["_id"] = str(document["_id"])
+        if (colId is None):
+            data = serialise(list(collection_name.find()))
+        else:
+            data = serialise(
+                list(collection_name.find({"_id": ObjectId(colId)})))
         return data
-        # return JSONResponse(status_code=200, content=data)
     except Exception as e:
         raise HTTPException(status_code=500, detail={"message": str(e)})
 
