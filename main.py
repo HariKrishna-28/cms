@@ -15,8 +15,7 @@ async def root():
 
 @app.get("/")
 async def root():
-    return JSONResponse(content={"message": "Server up"}, status_code=500)
-
+    return JSONResponse(content={"message": "Server up"}, status_code=200)
 
 app.include_router(post_router, prefix="/api/posts")
 

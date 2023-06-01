@@ -5,6 +5,14 @@ import os
 
 load_dotenv()
 database_url = os.getenv("MONGO_URL")
+# client = MongoClient(database_url, server_api=ServerApi('1'))
+# try:
+#     client.admin.command('ping')
+#     print("Pinged your deployment. You successfully connected to MongoDB!")
+# except Exception as e:
+#     print(e)
+
+# db = client.cms
 
 
 def mongo_db_client_connection():
@@ -19,4 +27,8 @@ def mongo_db_client_connection():
     except Exception as e:
         print(e)
 
-    # return client
+    return client
+
+
+# client = MongoClient(database_url)
+# db = client["cms"]
