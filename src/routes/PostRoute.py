@@ -11,47 +11,19 @@ from src.util.serialise import serialise
 router = APIRouter()
 
 
-class Item(BaseModel):
-    name: str
+# class Item(BaseModel):
+#     name: str
 
 
-client = mongo_db_client_connection()
-db = client.userSchemas
-collection_name = db["user-schemas"]
+# client = mongo_db_client_connection()
+# db = client.userSchemas
+# collection_name = db["user-schemas"]
 
 
 @router.get("/")
 async def get_posts():
-    return JSONResponse(content={"message": "Server up"}, status_code=200)
+    return JSONResponse(content={"message": "Posts"}, status_code=200)
 
-
-@router.post("/new-collection/{userId}")
-async def create_collection(request: Request, userId: int):
-    try:
-        print(userId)
-        item_json = await request.json()
-        item_json["createdAt"] = datetime.utcnow()
-        item_json["updatedAt"] = datetime.utcnow()
-        collection_name = db[str(userId)]
-        res = collection_name.insert_one(item_json)
-        inserted_id = str(res.inserted_id)
-        return JSONResponse(status_code=200, content=inserted_id)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail={"message": str(e)})
-
-
-@router.get("/get-all-collection/{userId}")
-async def get_all(request: Request, userId: int, colId: str | None = None):
-    try:
-        collection_name = db[str(userId)]
-        if (colId is None):
-            data = serialise(list(collection_name.find()))
-        else:
-            data = serialise(
-                list(collection_name.find({"_id": ObjectId(colId)})))
-        return data
-    except Exception as e:
-        raise HTTPException(status_code=500, detail={"message": str(e)})
 
 # Other route handlers for the PostRoute
 
