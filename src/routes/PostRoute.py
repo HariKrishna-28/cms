@@ -25,14 +25,18 @@ async def get_posts():
     return JSONResponse(content={"message": "Posts"}, status_code=200)
 
 
-@router.post("/new")
-async def new_post(request: Request, items: PostSchema):
+@router.post("/new/{postId}")
+async def new_post(request: Request, items: PostSchema, postId: str):
     try:
-        items_json = items.dict()
-        items_json["createdAt"] = datetime.utcnow()
-        items_json["updatedAt"] = datetime.utcnow()
-        res = collection_name.insert_one(items_json)
-        return JSONResponse(status_code=200, content=str(res.inserted_id))
+        post = collection_name.find({"_id": ObjectId(postId)})
+        if post:
+            return "post already there"
+        else:
+            items_json = items.dict()
+            items_json["createdAt"] = datetime.utcnow()
+            items_json["updatedAt"] = datetime.utcnow()
+            res = collection_name.insert_one(items_json)
+            return JSONResponse(status_code=200, content=str(res.inserted_id))
     except Exception as e:
         raise HTTPException(status_code=500, detail={"message": str(e)})
 
