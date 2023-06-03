@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic import BaseModel
 from datetime import datetime
 
@@ -11,5 +12,5 @@ class UserCollectionSchema(BaseModel):
     name: str
     ownerId: str
     fields: list[FieldLists]
-    createdAt: datetime
-    updatedAt: datetime
+    createdAt: Optional[datetime] = None
+    updatedAt: Optional[datetime] = None

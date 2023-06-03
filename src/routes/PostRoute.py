@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Request, HTTPException
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
-from src.schema.CollectionsSchema import UserCollectionSchema
+from src.schema.PostSchema import PostSchema
 from src.util.DatabaseConnection import mongo_db_client_connection
 import json
 from datetime import datetime
@@ -15,14 +15,26 @@ router = APIRouter()
 #     name: str
 
 
-# client = mongo_db_client_connection()
-# db = client.userSchemas
-# collection_name = db["user-schemas"]
+client = mongo_db_client_connection()
+db = client.cms
+collection_name = db["posts"]
 
 
 @router.get("/")
 async def get_posts():
     return JSONResponse(content={"message": "Posts"}, status_code=200)
+
+
+@router.post("/new")
+async def new_post(request: Request, items: PostSchema):
+    try:
+        items_json = items.dict()
+        items_json["createdAt"] = datetime.utcnow()
+        items_json["updatedAt"] = datetime.utcnow()
+        res = collection_name.insert_one(items_json)
+        return JSONResponse(status_code=200, content=str(res.inserted_id))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail={"message": str(e)})
 
 
 # Other route handlers for the PostRoute

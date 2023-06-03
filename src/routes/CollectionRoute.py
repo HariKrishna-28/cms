@@ -22,14 +22,16 @@ collection_name = db["user-schemas"]
 
 # create a new collection for each users to store their schemas
 @router.post("/new/{userId}")
-async def create_collection(request: Request, userId: int):
+async def create_collection(request: Request, item: UserCollectionSchema, userId: int):
     try:
-        print(userId)
-        item_json = await request.json()
-        item_json["createdAt"] = datetime.utcnow()
-        item_json["updatedAt"] = datetime.utcnow()
+        item_data = item.dict()
+        item_data["createdAt"] = datetime.utcnow()
+        item_data["updatedAt"] = datetime.utcnow()
+        # item_json = await request.json()
+        # item_json["createdAt"] = datetime.utcnow()
+        # item_json["updatedAt"] = datetime.utcnow()
         collection_name = db[str(userId)]
-        res = collection_name.insert_one(item_json)
+        res = collection_name.insert_one(item_data)
         inserted_id = str(res.inserted_id)
         return JSONResponse(status_code=200, content=inserted_id)
     except Exception as e:
@@ -38,7 +40,7 @@ async def create_collection(request: Request, userId: int):
 
 # get all collection or a specific collection based on user id
 @router.get("/get-all/{userId}")
-async def get_all(request: Request, userId: int, colId: str | None = None):
+async def get_all(request: Request, userId: int, colId: str | None = None, entryId: str | None = None):
     try:
         collection_name = db[str(userId)]
         if (colId is None):
