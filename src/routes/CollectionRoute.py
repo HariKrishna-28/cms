@@ -25,15 +25,13 @@ collection_name = db["user-schemas"]
 async def create_collection(request: Request, item: UserCollectionSchema, userId: int):
     try:
         item_data = item.dict()
-        owner_id = item_data.get("ownerId")
-        name = item_data.get("name")
+        owner_id, name = item_data.get("ownerId"), item_data.get("name")
         collection_data = list(collection_name.find({"$and": [
             {"ownerId": owner_id},
             {"name": name}
         ]}))
-        # print(len(collection_data))
         if len(collection_data) == 1:
-            return JSONResponse(status_code=405, content={"message": "There is already a collection with the same name"})
+            return JSONResponse(status_code=409, content={"message": "There is already a collection with the same name"})
         else:
             item_data["createdAt"] = datetime.utcnow()
             item_data["updatedAt"] = datetime.utcnow()
@@ -41,14 +39,6 @@ async def create_collection(request: Request, item: UserCollectionSchema, userId
             inserted_id = str(res.inserted_id)
             return JSONResponse(status_code=200, content=inserted_id)
 
-        # owner_id = item_data["ownerId"]
-        # item_data["createdAt"] = datetime.utcnow()
-        # item_data["updatedAt"] = datetime.utcnow()
-        # data = collection_name.find()
-        # return data
-        # res = collection_name.insert_one(item_data)
-        # inserted_id = str(res.inserted_id)
-        # return JSONResponse(status_code=200, content=inserted_id)
     except Exception as e:
         raise HTTPException(status_code=500, detail={"message": str(e)})
 
