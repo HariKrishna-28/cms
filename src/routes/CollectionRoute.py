@@ -26,10 +26,11 @@ async def create_collection(request: Request, item: UserCollectionSchema, userId
     try:
         item_data = item.dict()
         owner_id, name = item_data.get("ownerId"), item_data.get("name")
-        collection_data = list(collection_name.find({"$and": [
-            {"ownerId": owner_id},
-            {"name": name}
-        ]}))
+        collection_data = list(collection_name.find(
+            {"$and": [
+                {"ownerId": owner_id},
+                {"name": name}
+            ]}))
         if len(collection_data) == 1:
             return JSONResponse(status_code=409, content={"message": "There is already a collection with the same name"})
         else:
@@ -48,7 +49,6 @@ async def create_collection(request: Request, item: UserCollectionSchema, userId
 async def get_all(request: Request, userId: str, colId: str | None = None):
     try:
         # collection_name = db[str(userId)]
-        print(userId, colId)
         if (colId is None):
             data = serialise(
                 list(collection_name.find({"ownerId": userId})))
