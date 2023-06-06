@@ -15,3 +15,7 @@ class PostSchema(BaseModel):
     fields: list[FieldLists]
     createdAt: Optional[datetime] = None
     updatedAt: Optional[datetime] = None
+
+
+class DeletePostSchema(BaseModel):
+    ownerId: str
