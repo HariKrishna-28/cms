@@ -26,19 +26,6 @@ async def get_posts():
     return JSONResponse(content={"message": "Posts"}, status_code=200)
 
 
-@router.get("/get-post/{postId}")
-async def get_posts(postId: str):
-    try:
-        result = serialise(
-            list(collection_name.find({"_id": ObjectId(postId)})))
-        for i in result:
-            val = i
-        return val
-
-    except Exception as e:
-        raise HTTPException(status_code=500, detail={"message": str(e)})
-
-
 @router.post("/new")
 async def new_post(request: Request, items: PostSchema):
     try:
@@ -76,3 +63,24 @@ async def new_post(request: Request, items: PostSchema):
 
     except Exception as e:
         raise HTTPException(status_code=500, detail={"message": str(e)})
+
+
+@router.get("/get-post/{postId}")
+async def get_posts(postId: str):
+    try:
+        result = serialise(
+            list(collection_name.find({"_id": ObjectId(postId)})))
+        for i in result:
+            val = i
+        return val
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail={"message": str(e)})
+
+
+@router.put("/update/{postId}")
+async def update_post(postId: str):
+    try:
+        pass
+    except Exception as e:
+        raise JSONResponse(status_code=500, detail={"message": str(e)})
