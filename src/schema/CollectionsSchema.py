@@ -14,3 +14,8 @@ class UserCollectionSchema(BaseModel):
     fields: list[FieldLists]
     createdAt: Optional[datetime] = None
     updatedAt: Optional[datetime] = None
+
+
+class DeleteCollectionSchema(BaseModel):
+    name: str
+    ownerId: str
