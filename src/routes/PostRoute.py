@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Request, HTTPException
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
-from src.schema.PostSchema import PostSchema, DeletePostSchema
+from src.schema.PostSchema import PostSchema, DeletePostSchema, UpdatePostSchema
 from src.util.DatabaseConnection import mongo_db_client_connection
 import json
 from datetime import datetime
@@ -70,18 +70,40 @@ async def get_posts(postId: str):
     try:
         result = serialise(
             list(collection_name.find({"_id": ObjectId(postId)})))
-        for i in result:
-            val = i
-        return val
+        return result
 
     except Exception as e:
         raise HTTPException(status_code=500, detail={"message": str(e)})
 
 
 @router.put("/update/{postId}")
-async def update_post(postId: str):
+async def update_post(postId: str, item: UpdatePostSchema):
     try:
-        pass
+        data = item.dict()
+        ownerId = data.get("ownerId")
+        updatedData = data.get("updatedData")[0]
+        collection_data = list(collection_name.find(
+            {"$and": [
+                {"_id": ObjectId(postId)},
+                {"userId": ownerId}
+            ]}))
+
+        if len(collection_data) == 0:
+            return JSONResponse(status_code=404, content={"message": "collection not found or it doesn't belong to you"})
+
+        collection = list(collection_name.find({"_id": ObjectId(postId)}))[0]
+        data = collection.get("fields")
+        data = [updatedData if d["name"] ==
+                updatedData["name"] else d for d in data]
+        query = {"_id": ObjectId(postId)}
+        update_query = {"$set": {"fields": data,
+                                 "updatedAt": datetime.utcnow()}}
+
+        res = collection_name.find_one_and_update(
+            query=query, update=update_query, return_document=True, filter={})
+
+        return JSONResponse(status_code=200, content={"message": "successfully updatead"})
+
     except Exception as e:
         raise JSONResponse(status_code=500, detail={"message": str(e)})
 

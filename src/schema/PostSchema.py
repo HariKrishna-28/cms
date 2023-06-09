@@ -19,3 +19,8 @@ class PostSchema(BaseModel):
 
 class DeletePostSchema(BaseModel):
     ownerId: str
+
+
+class UpdatePostSchema(BaseModel):
+    ownerId: str
+    updatedData: list[FieldLists]
