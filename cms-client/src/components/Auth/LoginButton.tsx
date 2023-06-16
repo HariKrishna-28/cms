@@ -34,7 +34,7 @@ const LoginButton: React.FC = () => {
             <button
                 onClick={handleLogin}
                 className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
-                LoginButton
+                Login with google
             </button>
         </div>
     )
