@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { selectTheme, setTheme } from '@/redux/features/themeSlice'
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from './firebase'
-import { LoadingAnimation, LoginButton, LogoutButton, ErrorMessagebox } from '@/components'
+import { LoadingAnimation, LoginButton, LogoutButton } from '@/components'
 import { darkThemePreferenceGetter } from '@/utils/ThemeExporter'
 
 export default function Home() {
@@ -59,7 +59,7 @@ export default function Home() {
 
   return (
     <main className={themePreference ? 'dark' : ''}>
-      <div className='flex flex-col items-center justify-center h-screen bg-white dark:bg-black text-black dark:text-white transition-all duration-100'>
+      <div className='bg-transition transition-background-color flex flex-col items-center justify-center h-screen bg-white dark:bg-black text-black dark:text-white transition-all duration-700'>
         {
           loading ?
             <LoadingAnimation />
