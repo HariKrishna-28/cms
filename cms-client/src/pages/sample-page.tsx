@@ -1,10 +1,9 @@
 "use client"
-
 import React from 'react'
 
 const Sample: React.FC = () => {
     return (
-        <div>sample-page</div>
+        <div className='dark:bg-black bg-white text-black dark:text-white'>sample-page</div>
     )
 }
 
