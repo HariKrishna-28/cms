@@ -5,7 +5,7 @@ import React, { useEffect } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useSelector } from 'react-redux'
 import { auth } from '../firebase'
-import { LoadingAnimation } from '@/components'
+import { LoadingAnimation, NavBar } from '@/components'
 
 const Dashboard: React.FC = () => {
     // @ts-ignore
@@ -19,18 +19,27 @@ const Dashboard: React.FC = () => {
     }, [user, uLoading])
 
     return (
-        <div>
-            {
-                uLoading ?
-                    <div className='h-screen flex flex-col items-center justify-center'>
-                        <LoadingAnimation />
-                    </div>
-                    :
-                    <div>
-                        vanakam fransssssssssssssss
-                    </div>
-            }
-        </div>
+        <main>
+            <header>
+                <NavBar />
+            </header>
+            <div>
+                {
+                    uLoading ?
+                        <div className='h-screen flex flex-col items-center justify-center'>
+                            <LoadingAnimation />
+                        </div>
+                        :
+                        user !== null
+                            ?
+                            <div>
+                                vanakam fransssssssssssssss
+                            </div>
+                            :
+                            null
+                }
+            </div>
+        </main>
     )
 }
 

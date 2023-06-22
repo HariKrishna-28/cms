@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { selectTheme, setTheme } from '@/redux/features/themeSlice'
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from './firebase'
+import { useRouter } from 'next/navigation'
 import { LoadingAnimation, LoginButton, LogoutButton } from '@/components'
 import { darkThemePreferenceGetter } from '@/utils/ThemeExporter'
 
@@ -14,6 +15,7 @@ export default function Home() {
 
   const dispatch = useDispatch<AppDispatch>()
   const themePreference = useSelector(selectTheme)
+  const router = useRouter()
   // @ts-ignore
   const [user, loading, error] = useAuthState(auth)
 
@@ -52,10 +54,11 @@ export default function Home() {
     }))
   }, [])
 
-  // useEffect(() => {
-  //   if (loading) return
-  //   console.log(user)
-  // }, [user, loading])
+  useEffect(() => {
+    if (loading) return
+    if (user)
+      router.push('/dashboard')
+  }, [user, loading])
 
   return (
     <main className={themePreference ? 'dark' : ''}>
