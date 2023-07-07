@@ -1,5 +1,6 @@
 import { auth, provider } from '@/app/firebase'
 import { setAuthToken } from '@/redux/features/tokenSlice'
+import { setUser } from '@/redux/features/userSlice'
 import { AppDispatch } from '@/redux/store'
 import React from 'react'
 import { useDispatch } from 'react-redux'
@@ -16,6 +17,10 @@ const LogoutButton: React.FC = () => {
                     token: null
                 })
             )
+            dispatch(setUser({
+                isAuthenticated: false,
+                userData: null
+            }))
         } catch (error) {
             console.log("error")
         }

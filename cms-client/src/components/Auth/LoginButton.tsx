@@ -1,5 +1,6 @@
 import { auth, provider } from '@/app/firebase'
 import { setAuthToken } from '@/redux/features/tokenSlice'
+import { setUser } from '@/redux/features/userSlice'
 import { AppDispatch } from '@/redux/store'
 import React from 'react'
 import { useDispatch } from 'react-redux'
@@ -13,6 +14,19 @@ const LoginButton: React.FC = () => {
             await auth.signInWithPopup(provider)
                 .then(res => {
                     const data = res.user
+                    dispatch(setUser({
+                        isAuthenticated: true,
+                        userData: {
+                            // @ts-ignore
+                            displayName: data.displayName,
+                            // @ts-ignore
+                            email: data.email,
+                            // @ts-ignore
+                            photoURL: data.photoURL
+                        }
+                    }))
+
+
                     data?.getIdToken(true)
                         .then(token => {
                             dispatch(
