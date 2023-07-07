@@ -10,6 +10,7 @@ import { auth } from './firebase'
 import { useRouter } from 'next/navigation'
 import { LoadingAnimation, LoginButton, LogoutButton } from '@/components'
 import { darkThemePreferenceGetter } from '@/utils/ThemeExporter'
+import { setUser } from '@/redux/features/userSlice'
 
 export default function Home() {
 
@@ -18,6 +19,20 @@ export default function Home() {
   const router = useRouter()
   // @ts-ignore
   const [user, loading, error] = useAuthState(auth)
+
+  const updateUser = () => {
+    dispatch(setUser({
+      isAuthenticated: true,
+      userData: {
+        // @ts-ignore
+        displayName: user.displayName,
+        // @ts-ignore
+        email: user.email,
+        // @ts-ignore
+        photoURL: user.photoURL
+      }
+    }))
+  }
 
   const handleThemeChange = () => {
     dispatch(setTheme({
@@ -56,8 +71,10 @@ export default function Home() {
 
   useEffect(() => {
     if (loading) return
-    if (user)
+    if (user) {
+      updateUser()
       router.push('/dashboard')
+    }
   }, [user, loading])
 
   return (
@@ -70,7 +87,8 @@ export default function Home() {
             user == null ?
               <NoUser />
               :
-              <UserPresentScreen />
+              null
+          // <UserPresentScreen />
         }
       </div>
     </main>
