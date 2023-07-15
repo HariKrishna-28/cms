@@ -65,6 +65,7 @@ export default function Home() {
   useEffect(() => {
     if (loading) return
     if (user) {
+      console.log(user)
       updateUser()
       router.push('/dashboard')
     }

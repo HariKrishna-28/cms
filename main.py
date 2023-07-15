@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from src.routes.PostRoute import router as post_router
+from src.routes.UserRoute import router as user_router
 from src.routes.CollectionRoute import router as collection_router
 from fastapi.responses import JSONResponse
 from src.util.DatabaseConnection import mongo_db_client_connection
@@ -20,6 +21,7 @@ async def root():
 
 app.include_router(post_router, prefix="/api/post")
 app.include_router(collection_router, prefix="/api/collection")
+app.include_router(user_router, prefix="/api/user")
 
 
 # uvicorn main:app --reload

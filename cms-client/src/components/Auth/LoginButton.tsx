@@ -1,3 +1,4 @@
+"use client"
 import { auth, provider } from '@/app/firebase'
 import { setAuthToken } from '@/redux/features/tokenSlice'
 import { setUser } from '@/redux/features/userSlice'

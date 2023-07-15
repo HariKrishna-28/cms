@@ -31,7 +31,7 @@ const ThemeSwitcher: React.FC = () => {
     // }
 
     return (
-        <div
+        <button
             // onClick={handleThemeChange}
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
             className='mx-1.5'
@@ -42,7 +42,7 @@ const ThemeSwitcher: React.FC = () => {
                 title="Switch theme"> */}
             {themePreference ? <Lightbulb className='h-auto' /> : <NightlightRound className='h-auto' />}
             {/* </Tooltip> */}
-        </div>
+        </button>
     )
 }
 
