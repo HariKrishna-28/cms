@@ -71,7 +71,7 @@ export default function Home() {
   }, [user, loading])
 
   return (
-    <main className={themePreference ? 'dark' : ''}>
+    <main >
       <div className='bg-transition transition-background-color flex flex-col items-center justify-center h-screen bg-white dark:bg-black text-black dark:text-white transition-all duration-700'>
         {
           loading ?

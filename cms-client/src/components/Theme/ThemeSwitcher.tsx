@@ -1,26 +1,39 @@
 "use client"
 
+import React, { useState, useEffect } from 'react'
 import { selectTheme, setTheme } from '@/redux/features/themeSlice'
 import { AppDispatch } from '@/redux/store'
-import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Lightbulb, NightlightRound, Logout } from '@mui/icons-material';
 import { Tooltip, Zoom } from '@mui/material'
+import { useTheme } from "next-themes";
 
 const ThemeSwitcher: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>()
     const themePreference = useSelector(selectTheme)
-    console.log(themePreference)
+    const [mounted, setMounted] = useState(false);
+    const { theme, setTheme } = useTheme();
 
-    const handleThemeChange = () => {
-        dispatch(setTheme({
-            darkTheme: !themePreference
-        }))
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+
+    if (!mounted) {
+        return null;
     }
+
+    // const handleThemeChange = () => {
+    //     dispatch(setTheme({
+    //         darkTheme: !themePreference
+    //     }))
+    // }
 
     return (
         <div
-            onClick={handleThemeChange}
+            // onClick={handleThemeChange}
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
             className='mx-1.5'
         >
             {/* <Tooltip

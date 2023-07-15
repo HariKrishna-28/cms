@@ -28,7 +28,7 @@ const Dashboard: React.FC = () => {
     }, [user, uLoading])
 
     return (
-        <main className={theme ? 'dark' : ''}>
+        <main>
             <header>
                 <NavBar />
             </header>
