@@ -7,12 +7,14 @@ import { useSelector } from 'react-redux'
 import { auth } from '../firebase'
 import { LoadingAnimation, NavBar } from '@/components'
 import { isAuthenticated } from '@/redux/features/userSlice'
+import { selectTheme } from '@/redux/features/themeSlice'
 
 const Dashboard: React.FC = () => {
     // @ts-ignore
     const [user, uLoading, error] = useAuthState(auth)
     const router = useRouter()
     const isUser = useSelector(isAuthenticated)
+    const theme = useSelector(selectTheme)
 
 
     // useEffect(() => {
@@ -26,7 +28,7 @@ const Dashboard: React.FC = () => {
     }, [user, uLoading])
 
     return (
-        <main>
+        <main className={theme ? 'dark' : ''}>
             <header>
                 <NavBar />
             </header>
@@ -39,7 +41,7 @@ const Dashboard: React.FC = () => {
                         :
                         user !== null
                             ?
-                            <div>
+                            <div className='dark:text-white dark:bg-black text-black bg-white'>
                                 vanakam fransssssssssssssss
                             </div>
                             :

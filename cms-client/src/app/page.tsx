@@ -9,7 +9,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from './firebase'
 import { useRouter } from 'next/navigation'
 import { LoadingAnimation, LoginButton, LogoutButton } from '@/components'
-import { darkThemePreferenceGetter } from '@/utils/ThemeExporter'
+// import { darkThemePreferenceGetter } from '@/utils/ThemeExporter'
 import { setUser } from '@/redux/features/userSlice'
 
 export default function Home() {
@@ -61,13 +61,6 @@ export default function Home() {
     )
   }
 
-  // theme preference setter
-  useEffect(() => {
-    const isDark = darkThemePreferenceGetter()
-    dispatch(setTheme({
-      darkTheme: isDark
-    }))
-  }, [])
 
   useEffect(() => {
     if (loading) return
