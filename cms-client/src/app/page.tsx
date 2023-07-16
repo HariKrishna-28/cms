@@ -1,5 +1,4 @@
 "use client"
-
 import React, { useEffect } from 'react'
 import { AppDispatch } from '@/redux/store'
 // import Image from 'next/image'
@@ -11,6 +10,7 @@ import { useRouter } from 'next/navigation'
 import { LoadingAnimation, LoginButton, LogoutButton } from '@/components'
 // import { darkThemePreferenceGetter } from '@/utils/ThemeExporter'
 import { setUser } from '@/redux/features/userSlice'
+import { INITIALISE_USER } from '@/api/UserAPI';
 
 export default function Home() {
 
@@ -32,6 +32,16 @@ export default function Home() {
         photoURL: user.photoURL
       }
     }))
+  }
+
+  const initialiseUser = async () => {
+    try {
+      // @ts-ignore
+      const res = await INITIALISE_USER(user?.displayName, user?.email, user?.photoURL)
+      console.log(res.data)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const handleThemeChange = () => {
@@ -65,7 +75,9 @@ export default function Home() {
   useEffect(() => {
     if (loading) return
     if (user) {
-      console.log(user)
+      // update the user in the database
+      initialiseUser()
+      // set the user data in redux
       updateUser()
       router.push('/dashboard')
     }

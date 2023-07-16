@@ -16,11 +16,11 @@ collection_name = db["user"]
 @router.post("/initialise")
 async def initialise_user(request: Request, data: UserDataSchema):
     try:
+        print(data)
         user_existing = collection_name.find_one(
             {"displayName": data.displayName})
         if user_existing:
             return {"message": "Username already exists."}
-
         data_dict = data.dict()
         data_dict["createdAt"] = datetime.utcnow()
         res = collection_name.insert_one(data_dict)

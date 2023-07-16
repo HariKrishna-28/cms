@@ -7,7 +7,18 @@ from fastapi.responses import JSONResponse
 from src.util.DatabaseConnection import mongo_db_client_connection
 
 app = FastAPI()
-app.add_middleware(CORSMiddleware)
+
+origins = [
+    "http://localhost:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.on_event('startup')
@@ -24,4 +35,5 @@ app.include_router(collection_router, prefix="/api/collection")
 app.include_router(user_router, prefix="/api/user")
 
 
-# uvicorn main:app --reload
+# start command
+# uvicorn main:app --reload --port 5000
