@@ -8,10 +8,6 @@ from src.util.DatabaseConnection import mongo_db_client_connection
 
 app = FastAPI()
 
-origins = [
-    "http://localhost:3000",
-]
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
