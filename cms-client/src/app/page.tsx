@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { AppDispatch } from '@/redux/store'
 // import Image from 'next/image'
 import { useDispatch, useSelector } from 'react-redux'
@@ -85,7 +85,7 @@ export default function Home() {
 
   return (
     <main >
-      <div className='bg-transition transition-background-color flex flex-col items-center justify-center h-screen bg-white dark:bg-black text-black dark:text-white transition-all duration-700'>
+      <div className='flex flex-col items-center justify-center h-screen text-black transition-all duration-700 bg-white bg-transition transition-background-color dark:bg-black dark:text-white'>
         {
           loading ?
             <LoadingAnimation />

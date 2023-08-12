@@ -29,20 +29,26 @@ const Dashboard: React.FC = () => {
 
     return (
         <main>
-            <header>
+            <header className='p-0 m-0 -mt-2'>
                 <NavBar />
             </header>
             <div>
                 {
                     uLoading ?
-                        <div className='h-screen flex flex-col items-center justify-center'>
+                        <div className='flex flex-col items-center justify-center h-screen'>
                             <LoadingAnimation />
                         </div>
                         :
                         user !== null
                             ?
-                            <div className='dark:text-white dark:bg-black text-black bg-white'>
-                                vanakam fransssssssssssssss
+                            <div className='text-black bg-white dark:text-white dark:bg-black'>
+                                <div>
+                                    Welcome {user?.displayName}
+                                </div>
+
+                                <div className='text-4xl font-black'></div>
+
+
                             </div>
                             :
                             null

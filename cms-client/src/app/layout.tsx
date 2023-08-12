@@ -19,13 +19,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <body className='font-custom'>
           <ReduxProvider>
             {children}
           </ReduxProvider>
-        </ThemeProvider>
-      </body>
+        </body>
+      </ThemeProvider>
       {/* <body className={inter.className}>{children}</body> */}
     </html>
   )
