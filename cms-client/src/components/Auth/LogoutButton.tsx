@@ -1,4 +1,4 @@
-import { auth, provider } from '@/app/firebase'
+import { auth, provider } from '@/pages/firebase'
 import { setAuthToken } from '@/redux/features/tokenSlice'
 import { setUser } from '@/redux/features/userSlice'
 import { AppDispatch } from '@/redux/store'
